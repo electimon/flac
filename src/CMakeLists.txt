@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 
 option(ENABLE_64_BIT_WORDS "Set FLAC__BYTES_PER_WORD to 8, for 64-bit machines. For 32-bit machines, turning this off might give a tiny speed improvement" ON)
+option(WITH_XMMS "Build XMMS plugin" OFF)
 option(BUILD_UTILS "Build utils" OFF)
 
 add_subdirectory("libFLAC")
@@ -24,6 +25,10 @@ if(BUILD_UTILS)
     endif()
 endif()
 
+if(WITH_XMMS)
+    add_subdirectory("plugin_common")
+    add_subdirectory("plugin_xmms")
+endif()
 if(BUILD_TESTING)
     add_subdirectory("test_libs_common")
     add_subdirectory("test_libFLAC")

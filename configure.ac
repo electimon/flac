@@ -86,6 +86,9 @@ AC_DEFINE(FLAC__NO_ASM)
 AH_TEMPLATE(FLAC__NO_ASM, [define to disable use of assembly code])
 fi
 
+# For the XMMS plugin.
+AC_CHECK_TYPES(socklen_t, [], [])
+
 dnl check for getauxval in standard library
 AC_CHECK_FUNCS(getauxval)
 
@@ -300,6 +303,27 @@ if test ! -n "$DOXYGEN" && test -f "$srcdir/doc/FLAC.tag" && test -f "$srcdir/do
 	HAS_PREBUILT_DOXYGEN=yes
 fi
 AM_CONDITIONAL(FLaC__HAS_PREBUILT_DOXYGEN, test "x$HAS_PREBUILT_DOXYGEN" = xyes)
+
+AC_ARG_ENABLE(local-xmms-plugin,
+AS_HELP_STRING([--enable-local-xmms-plugin],[Install XMMS plugin to ~/.xmms/Plugins instead of system location]),
+[case "${enableval}" in
+	yes) install_xmms_plugin_locally=true ;;
+	no)  install_xmms_plugin_locally=false ;;
+	*) AC_MSG_ERROR(bad value ${enableval} for --enable-local-xmms-plugin) ;;
+esac],[install_xmms_plugin_locally=false])
+AM_CONDITIONAL(FLaC__INSTALL_XMMS_PLUGIN_LOCALLY, test "x$install_xmms_plugin_locally" = xtrue)
+
+AC_ARG_ENABLE(xmms-plugin,
+AS_HELP_STRING([--disable-xmms-plugin],[Do not build XMMS plugin]),
+[case "${enableval}" in
+	yes) enable_xmms_plugin=true ;;
+	no)  enable_xmms_plugin=false ;;
+	*) AC_MSG_ERROR(bad value ${enableval} for --enable-xmms-plugin) ;;
+esac],[enable_xmms_plugin=true])
+if test "x$enable_xmms_plugin" != xfalse ; then
+	AM_PATH_XMMS(0.9.5.1, , AC_MSG_WARN([*** XMMS >= 0.9.5.1 not installed - XMMS support will not be built]))
+fi
+AM_CONDITIONAL(FLaC__HAS_XMMS, test -n "$XMMS_INPUT_PLUGIN_DIR")
 
 dnl build FLAC++ or not
 AC_ARG_ENABLE([cpplibs],
@@ -545,6 +569,8 @@ AC_CONFIG_FILES([ \
 	src/libFLAC++/flac++.pc \
 	src/flac/Makefile \
 	src/metaflac/Makefile \
+	src/plugin_common/Makefile \
+	src/plugin_xmms/Makefile \
 	src/share/Makefile \
 	src/test_grabbag/Makefile \
 	src/test_grabbag/cuesheet/Makefile \

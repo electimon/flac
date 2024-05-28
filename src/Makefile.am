@@ -16,6 +16,10 @@
 #  restrictive of those mentioned above.  See the file COPYING.Xiph in this
 #  distribution.
 
+if FLaC__HAS_XMMS
+XMMS_DIRS = plugin_common plugin_xmms
+endif
+
 if FLaC__WITH_CPPLIBS
 CPPLIBS_DIRS = libFLAC++ test_libFLAC++
 endif
@@ -28,6 +32,7 @@ SUBDIRS = \
 	libFLAC \
 	share \
 	$(PROGRAMS_DIRS) \
+	$(XMMS_DIRS) \
 	test_grabbag \
 	test_libs_common \
 	test_libFLAC \
