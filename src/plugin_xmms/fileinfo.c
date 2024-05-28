@@ -286,7 +286,7 @@ void FLAC_XMMS__file_info_box(char *filename)
 		GtkWidget *label, *filename_hbox;
 		GtkWidget *bbox, *save, *remove, *cancel;
 
-		window = gtk_window_new(GTK_WINDOW_DIALOG);
+		window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 		gtk_window_set_policy(GTK_WINDOW(window), FALSE, FALSE, FALSE);
 		gtk_signal_connect(GTK_OBJECT(window), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &window);
 		gtk_container_set_border_width(GTK_CONTAINER(window), 10);

@@ -46,6 +46,7 @@
 #include "FLAC/format.h"
 #include "configure.h"
 #include "locale_hack.h"
+#include "share/compat.h"
 
 /* on FreeBSD we get socklen_t from <sys/socket.h> */
 #if (!defined HAVE_SOCKLEN_T) && !defined(__FreeBSD__)
