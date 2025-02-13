@@ -1,6 +1,6 @@
 #  FLAC - Free Lossless Audio Codec
 #  Copyright (C) 2001-2009  Josh Coalson
-#  Copyright (C) 2011-2024  Xiph.Org Foundation
+#  Copyright (C) 2011-2025  Xiph.Org Foundation
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under different licenses.  The codec libraries
@@ -20,7 +20,7 @@
 # instead of FLAC__ since autoconf triggers off 'AC_' in strings
 
 AC_PREREQ(2.60)
-AC_INIT([flac],[1.4.3],[flac-dev@xiph.org],[flac],[https://www.xiph.org/flac/])
+AC_INIT([flac],[1.5.0],[flac-dev@xiph.org],[flac],[https://www.xiph.org/flac/])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([src/flac/main.c])
 AC_CONFIG_MACRO_DIR([m4])
@@ -53,7 +53,7 @@ AM_PROG_CC_C_O
 AC_C_INLINE
 AC_C_TYPEOF
 
-AC_CHECK_HEADERS([stdint.h stdbool.h inttypes.h byteswap.h sys/auxv.h sys/param.h sys/ioctl.h termios.h x86intrin.h cpuid.h arm_neon.h])
+AC_CHECK_HEADERS([stdint.h stdbool.h inttypes.h byteswap.h sys/auxv.h sys/param.h sys/ioctl.h sys/time.h termios.h x86intrin.h cpuid.h arm_neon.h])
 
 if test "x$ac_cv_header_stdint_h" != xyes -o "x$ac_cv_header_stdbool_h" != xyes; then
 AC_MSG_ERROR("Header stdint.h and/or stdbool.h not found")
@@ -536,7 +536,7 @@ AC_CHECK_PROG(GIT_FOUND,git,yes)
 
 if test x$GIT_FOUND$enable_version_from_git = "xyesyes"; then
 	GIT_COMMIT_TAG=`git -C $srcdir --git-dir=.git describe --tags --exact-match 2>/dev/null`
-	GIT_COMMIT_HASH=`git -C $srcdir --git-dir=.git log -1 --pretty=format:%h 2>/dev/null`
+	GIT_COMMIT_HASH=`git -C $srcdir --git-dir=.git log -1 --pretty=format:%H 2>/dev/null | head -c 8`
 	GIT_COMMIT_DATE=`git -C $srcdir --git-dir=.git log -1 --pretty=format:%cd --date=format:%Y%m%d 2>/dev/null`
 	if test ${#GIT_COMMIT_HASH} = 8 && test ${#GIT_COMMIT_DATE} = 8; then
 		GIT_COMMIT_VERSION_AVAIL=yes
@@ -613,7 +613,6 @@ AC_CONFIG_FILES([ \
 	test/flac-to-flac-metadata-test-files/Makefile \
 	test/metaflac-test-files/Makefile \
 	test/pictures/Makefile \
-	microbench/Makefile \
 	oss-fuzz/Makefile
 ])
 AC_OUTPUT
